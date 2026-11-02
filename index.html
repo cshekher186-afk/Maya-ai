@@ -73,3 +73,74 @@ function listen() {
 
 </body>
 </html>
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MAYA AI</title>
+<style>
+body {
+  background: #07111f;
+  color: white;
+  font-family: Arial;
+  text-align: center;
+  padding: 25px;
+}
+h1 { color: #00e5ff; margin-top: 50px; }
+button {
+  padding: 18px;
+  margin: 12px;
+  border: none;
+  border-radius: 15px;
+  background: #00bcd4;
+  color: #001018;
+  font-size: 18px;
+}
+</style>
+</head>
+<body>
+
+<h1>🤖 MAYA AI</h1>
+<p id="reply">नमस्ते! मैं MAYA हूँ।</p>
+
+<button onclick="speak()">मेरी आवाज़ सुनो</button>
+<button onclick="listen()">MAYA से बात करो</button>
+
+<script>
+function speak(message = "नमस्ते! मैं MAYA हूँ। बताइए, मैं आपकी क्या मदद करूँ?") {
+  speechSynthesis.cancel();
+  let voice = new SpeechSynthesisUtterance(message);
+  voice.lang = "hi-IN";
+  speechSynthesis.speak(voice);
+}
+
+function listen() {
+  const Recognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+
+  if (!Recognition) {
+    document.getElementById("reply").innerText =
+      "इस ब्राउज़र में आवाज़ पहचान उपलब्ध नहीं है।";
+    return;
+  }
+
+  let recognition = new Recognition();
+  recognition.lang = "hi-IN";
+
+  recognition.onresult = function(event) {
+    let text = event.results[0][0].transcript;
+    document.getElementById("reply").innerText = "आपने कहा: " + text;
+    speak("आपने कहा " + text);
+  };
+
+  recognition.onerror = function() {
+    document.getElementById("reply").innerText =
+      "माइक की अनुमति जाँचें और फिर कोशिश करें।";
+  };
+
+  recognition.start();
+}
+</script>
+
+</body>
+</html>

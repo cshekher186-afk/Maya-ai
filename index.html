@@ -1,0 +1,75 @@
+
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MAYA AI</title>
+<style>
+body {
+  background: #101522;
+  color: white;
+  font-family: Arial;
+  text-align: center;
+  padding: 25px;
+}
+h1 { color: #54d8ff; font-size: 38px; }
+button {
+  background: #087cff;
+  color: white;
+  border: none;
+  padding: 16px 25px;
+  border-radius: 30px;
+  font-size: 18px;
+  margin: 10px;
+}
+#reply {
+  margin-top: 30px;
+  font-size: 20px;
+}
+</style>
+</head>
+<body>
+
+<h1> MAYA AI </h1>
+<p>Your Personal Voice Assistant</p>
+
+<button onclick="listen()">🎤 Talk to Maya</button>
+<button onclick="speak('Hello! Main Maya hoon.')">
+🔊 Test Voice
+</button>
+
+<div id="reply">नमस्ते! मैं MAYA हूँ।</div>
+
+<script>
+function speak(text) {
+  let voice = new SpeechSynthesisUtterance(text);
+  voice.lang = "hi-IN";
+  speechSynthesis.speak(voice);
+  document.getElementById("reply").innerText = text;
+}
+
+function listen() {
+  const SpeechRecognition =
+    window.SpeechRecognition ||
+    window.webkitSpeechRecognition;
+
+  if (!SpeechRecognition) {
+    speak("Please Chrome browser use karein.");
+    return;
+  }
+
+  let recognition = new SpeechRecognition();
+  recognition.lang = "hi-IN";
+
+  recognition.onresult = function(event) {
+    let text = event.results[0][0].transcript;
+    speak("Aapne kaha " + text);
+  };
+
+  recognition.start();
+}
+</script>
+
+</body>
+</html>
